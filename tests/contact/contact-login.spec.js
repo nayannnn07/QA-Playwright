@@ -67,7 +67,7 @@ test.describe("Crud Operation", () => {
     );
   });
 
-  test.only("Edit contact test", async ({ context, page, request }) => {
+  test("Edit contact test", async ({ context, page, request }) => {
     // await page.waitForTimeout(3000);
     const login = new LoginPage(page);
     const Data = { firstName: "hello", lastName: "world" };
