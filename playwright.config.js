@@ -26,19 +26,29 @@ module.exports = defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: "https://practicetestautomation.com/practice-test-login/",
-    baseURL: "https://thinking-tester-contact-list.herokuapp.com/",
+    //baseURL: "https://thinking-tester-contact-list.herokuapp.com/",
+    //baseURL: "http://localhost/book.things/userLogin.php/",
+    baseURL: "https://mbshbookstore.com/",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+         ...devices["Desktop Chrome"],
+         deviceScaleFactor: undefined,
+         viewport: null,
+         launchOptions: {
+           args: ['--start-maximized']
+         },
+         },
     },
 
     // {

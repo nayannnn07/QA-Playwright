@@ -1,75 +1,70 @@
-const { test, expect } = require("@playwright/test");
-const testData = require("../../fixtures/loginFixture.json");
-import { LoginPage } from "../../pageObjects/login.po.js";
+const { test, expect } = require('@playwright/test');
+const testData = require('../../fixtures/loginFixture.json');
+import { LoginPage } from '../../pageObjects/login.po.js';
+//import { ContactPage } from "../pageObjects/contactFill.po.js";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("./");
-});
-
-test.describe("Valid Login tests", () => {
-  test("valid login", async ({ page }) => {
+test.describe.configure({ timeout:60000 });
+test.describe.configure({ mode: "serial" });
+test.describe("Go to Page and Login", () => {
+  test.beforeEach(async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(testData.validUser.Username, testData.validUser.Password);
-    await login.verifyValidLogin();
-  });
-});
-
-test.describe("Invalid Login Test", () => {
-  test("invalid username invalid password", async ({ page }) => {
-    const login = new LoginPage(page);
-    await login.login(
-      testData.invalidUser.InvalidUsername,
-      testData.invalidUser.InvalidPassword
-    );
-    await login.verifyInvalidUsername();
+    await page.goto("https://mbshbookstore.com/");
+    await login.userButton();
   });
 
-  test("invalid username valid password", async ({ page }) => {
+  // test.only("Login using all valid credentials", async ({ page }) => {
+  //   const login = new LoginPage(page);
+  //   await login.login(testData.validUser.email, testData.validUser.password);
+  //   await login.loginButton();
+  //   await page.goto('https://mbshbookstore.com/');
+  // });
+
+  test("Login using invalid email and invalid password", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(
-      testData.invalidUser.InvalidUsername,
-      testData.invalidUser.Password
-    );
-    await login.verifyInvalidUsername();
+    await login.login(testData.invalidUser.invalidEmail, testData.invalidUser.invalidPassword);
+    await login.loginButton();
   });
 
-  test("valid username invalid password", async ({ page }) => {
+  test("Login using valid email and invalid password", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(
-      testData.invalidUser.Username,
-      testData.invalidUser.InvalidPassword
-    );
-    await login.verifyInvalidPassword();
+    await login.login(testData.invalidUser.email, testData.invalidUser.invalidPassword);
+    await login.loginButton();
   });
 
-  test("no username no password", async ({ page }) => {
+  test("Login using invalid email and valid password", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(
-      testData.invalidUser.EmptyUsername,
-      testData.invalidUser.EmptyPassword
-    );
-    await login.verifyInvalidUsername();
+    await login.login(testData.invalidUser.invalidEmail, testData.invalidUser.password);
+    await login.loginButton();
   });
 
-  test("no username valid password", async ({ page }) => {
+  test("Login using empty email and empty password", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(
-      testData.invalidUser.EmptyUsername,
-      testData.invalidUser.Password
-    );
-    await login.verifyInvalidUsername();
+    await login.login(testData.invalidUser.emptyEmail, testData.invalidUser.emptyPassword);
+    await login.loginButton();
   });
 
-  test("valid username no password", async ({ page }) => {
+  test("Login using valid email and empty password", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(
-      testData.invalidUser.Username,
-      testData.invalidUser.EmptyPassword
-    );
-    await login.verifyInvalidPassword();
+    await login.login(testData.invalidUser.email, testData.invalidUser.emptyPassword);
+    await login.loginButton();
   });
-});
 
-test.afterEach(async ({ page }) => {
-  await page.close();
+  test("Login using empty email and valid password", async ({ page }) => {
+    const login = new LoginPage(page);
+    await login.login(testData.invalidUser.emptyEmail, testData.invalidUser.password);
+    await login.loginButton();
+  });
+
+  test("Login using invalid email and empty password", async ({ page }) => {
+    const login = new LoginPage(page);
+    await login.login(testData.invalidUser.invalidEmail, testData.invalidUser.emptyPassword);
+    await login.loginButton();
+  });
+
+  test("Login using empty email and invalid password", async ({ page }) => {
+    const login = new LoginPage(page);
+    await login.login(testData.invalidUser.emptyEmail, testData.invalidUser.invalidPassword);
+    await login.loginButton();
+  });
+
 });
